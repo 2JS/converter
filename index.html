@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>converter</title>
+</head>
+
+<body>
+  <h1>converter</h1>
+  <label for="infile">Choose an image file</label>
+  <input type="file" id="infile" name="infile" accept="image/png">
+  <p><span id="filename">Filename: </span></p>
+  <script type="module">
+    const selectElement = document.querySelector('#infile');
+
+    selectElement.addEventListener('change', (event) => {
+      const files = document.querySelector('#infile').files;
+      let file = files[0];
+
+      var downloadLink = document.createElement('a');
+      downloadLink.download = file.name;
+      downloadLink.innerHTML = "Download File";
+
+      if (window.webkitURL != null) {
+        downloadLink.href = window.webkitURL.createObjectURL(file);
+      } else {
+        downloadLink.href = window.URL.createObjectURL(file);
+        downloadLink.onclick = destroyClickedElement;
+        downloadLink.style.display = 'none';
+        document.body.appendChild(downloadLink);
+      }
+
+      downloadLink.click();
+    });
+
+    function destroyClickedElement(event) {
+
+      document.body.removeChild(event.target);
+
+    }
+  </script>
+</body>
+
+</html>
